@@ -1,7 +1,8 @@
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import Query, Mapper
-from sqlalchemy.orm.query import _QueryEntity
+# from sqlalchemy.orm.query import _QueryEntity  # _QueryEntity per 4.1
+from sqlalchemy.orm.context import _QueryEntity
 from sqlalchemy.orm.util import AliasedInsp, AliasedClass
 
 from sqlalchemy_auth import AuthException, BlockBase, ALLOW, DENY
@@ -47,7 +48,7 @@ class AuthQuery(Query):
             _entities = []
             _primary_entity = None
         for obj in objects:
-            _QueryEntity(dummy, obj)
+            _QueryEntity()  # no args per 1.4 (dummy, obj)
         return dummy._entities
 
     def _update_entity_set(self, objects, entity_set):

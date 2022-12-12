@@ -1,8 +1,26 @@
 from sqlalchemy.orm import Session
-from sqlalchemy.orm.scoping import instrument, makeprop
+# from sqlalchemy.orm.scoping import instrument, makeprop
+"""
+    per 1.4, instrument / makeprop removed, so build here
+    thanks: https://github.com/sqlalchemy/sqlalchemy/discussions/8968#discussioncomment-4373831
+"""
 
 from sqlalchemy_auth import AuthException, ALLOW, DENY
 
+def instrument(name):
+    def do(self, *args, **kwargs):
+        return getattr(self.registry(), name)(*args, **kwargs)
+
+    return do
+
+def makeprop(name):
+    def set_(self, attr):
+        setattr(self.registry(), name, attr)
+
+    def get(self):
+        return getattr(self.registry(), name)
+
+    return property(get, set_)
 
 class _BadgeContext:
     """

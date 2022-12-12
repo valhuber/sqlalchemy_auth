@@ -1,4 +1,12 @@
-import pytest
+import pytest, os, sys
+
+'''
+current_path = os.path.abspath(os.path.dirname(__file__))  #  per 1.4, so I could run
+current_path = os.path.dirname(current_path)
+sys.path.append(current_path)
+project_dir = str(current_path)
+os.chdir(project_dir)  # so can find next import
+'''
 
 from sqlalchemy_auth import AuthSession, AuthQuery, AuthBase, AuthException, ALLOW, DENY
 
@@ -57,7 +65,14 @@ class TestAuthBaseFilters:
         for i in range(1, 4):
             session.badge = i
             query = session.query(Data)
-            assert itercount(query) == i
+            sqlalchemy_4_1_results = True
+            if sqlalchemy_4_1_results:
+                rows = query.all()
+                for each_row in rows:
+                    print(f'test_full_object[{i}]: id={each_row.id}, owner={each_row.owner}')
+            itercount_result = itercount(query)
+            print(f'test_full_object - {itercount_result} rows')
+            assert itercount(query) == i, f"test_full_object failed itercount - expected {i}, got {itercount_result}"
 
     def test_partial_object(self):
         session = self.Session()

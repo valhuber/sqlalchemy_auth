@@ -10,6 +10,19 @@ It is easy to use, and easy to bypass when needed.
 
 Your `badge` is shared between all queries and mapped class instances within a session.
 
+# _Dev_ Installation and Test
+
+Installation (mac):
+
+```
+git clone https://github.com/dhiltonp/sqlalchemy_auth.git
+python3 -m venv venv; . venv/bin/activate; python3 -m pip install -r requirements.txt
+```
+
+Configure for [pytest](https://code.visualstudio.com/docs/python/testing), and run `auth_query_test.py`.
+
+Currently fails - `test_full_object()` returns 6 rows.
+
 
 # Getting Started
 

@@ -1,0 +1,7 @@
+{
+    "python.testing.pytestArgs": [
+        "sqlalchemy_auth"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
